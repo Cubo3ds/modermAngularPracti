@@ -14,9 +14,33 @@ interface Characters{
 })
 export class DragonballPageComponent {
 
-  public characters = signal<Characters[]>([
-    { id: 1, name: 'Gohan', power :11000 },
-    { id: 2, name: 'Krillin', power :8000 },
-    { id: 3, name: 'Bulma', power :100 },
+  name = signal('');
+  power = signal(0);
+
+  characters = signal<Characters[]>([
+    { id: 1, name: 'Goku', power :11000 },
   ]);
+
+  addCharacter(){
+    console.log(this.name(), this.power());
+    if (!this.name() || !this.power() || this.power() < 0) {
+      return;
+    }
+
+    const newCharacter: Characters = {
+
+      id: this.characters().length +1,
+      name: this.name(),
+      power: this.power(),
+
+    };
+
+    this.characters.update((list)=> [...list, newCharacter]);
+    this.resetFields();
+  }
+
+  resetFields(){
+    this.name.set('');
+    this.power.set(0);
+  }
 }
